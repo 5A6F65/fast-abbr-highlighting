@@ -310,9 +310,9 @@ _fah_parse_global_abbr() {
 
     # Initialize version tracking and default settings.
     [[ ${(t)FAST_ABBR_HIGHLIGHT} != association ]] && typeset -gA FAST_ABBR_HIGHLIGHT
-    FAST_ABBR_HIGHLIGHT[VERSION]=0.1.0
+    FAST_ABBR_HIGHLIGHT[VERSION]=0.1.1
     : ${FAST_ABBR_HIGHLIGHT[SUBCMD_MAX_LENGTH]:=7}
-    : ${FAST_ABBR_HIGHLIGHT[ARGUMENT_MAX_LE121NGTH]:=7}
+    : ${FAST_ABBR_HIGHLIGHT[ARGUMENT_MAX_LENGTH]:=7}
 
     # Avoid duplicate wrapping.
     (( ${+functions[_orig_zsh_highlight]} )) && return 0
