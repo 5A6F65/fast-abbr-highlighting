@@ -310,7 +310,7 @@ _fah_parse_global_abbr() {
 
     # Initialize version tracking and default settings.
     [[ ${(t)FAST_ABBR_HIGHLIGHT} != association ]] && typeset -gA FAST_ABBR_HIGHLIGHT
-    FAST_ABBR_HIGHLIGHT[VERSION]=0.1.1
+    FAST_ABBR_HIGHLIGHT[VERSION]=0.1.2
     : ${FAST_ABBR_HIGHLIGHT[SUBCMD_MAX_LENGTH]:=7}
     : ${FAST_ABBR_HIGHLIGHT[ARGUMENT_MAX_LENGTH]:=7}
 
@@ -348,22 +348,27 @@ _fah_parse_global_abbr() {
             # See description of `_fah_parse_regular_abbr`.
             _fah_parse_regular_abbr $LBUFFER && {
                 region_highlight=($reply)
+                FAST_ABBR_HIGHLIGHT[PREV_MATCHED]=1
                 FAST_ABBR_HIGHLIGHT[PRIOR_LBUFFER]=$LBUFFER
                 # If matched, return.
                 return 0
             }
-            # If not matched, reset `_ZSH_HIGHLIGHT_PRIOR_BUFFER`
-            # to ensure the original highlight function will be triggered.
-            local _ZSH_HIGHLIGHT_PRIOR_BUFFER
+            # If an abbreviation was matched in the previous highlight, `_ZSH_HIGHLIGHT_PRIOR_BUFFER`
+            # must be cleared when `LBUFFER` changes to retrigger the original highlight function.
+            (( ${FAST_ABBR_HIGHLIGHT[PREV_MATCHED]} )) && typeset -g _ZSH_HIGHLIGHT_PRIOR_BUFFER=
         }
 
         # Fallback to original highlight function.
         _orig_zsh_highlight "$@"
+        FAST_ABBR_HIGHLIGHT[PREV_MATCHED]=0
 
         # Process global abbreviation after original highlight function.
         if [[ $LBUFFER != ${FAST_ABBR_HIGHLIGHT[PRIOR_LBUFFER]} ]] {
             # See description of `_fah_parse_global_abbr`.
-            _fah_parse_global_abbr $LBUFFER && region_highlight+=($reply)
+            _fah_parse_global_abbr $LBUFFER && {
+                region_highlight+=($reply)
+                FAST_ABBR_HIGHLIGHT[PREV_MATCHED]=1
+            }
             FAST_ABBR_HIGHLIGHT[PRIOR_LBUFFER]=$LBUFFER
         }
         return 0
