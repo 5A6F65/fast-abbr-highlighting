@@ -1,0 +1,19 @@
+name: Feature Request
+description: Request a new feature or enhancement.
+title: Please describe your request in a complete sentence
+labels: [enhancement]
+body:
+  - type: checkboxes
+    id: update-title
+    attributes:
+      label: Update Title
+      description: Update the issue title to be a clear, complete sentence that summarizes the feature request.
+      options:
+        - label: I have updated the title.
+          required: true
+  - type: textarea
+    id: feature
+    attributes:
+      label: Feature
+    validations:
+      required: true

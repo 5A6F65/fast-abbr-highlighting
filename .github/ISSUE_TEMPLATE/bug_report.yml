@@ -1,0 +1,88 @@
+name: Bug Report
+description: If you've confirmed something is broken, create a bug report.
+title: Please describe the issue in a complete sentence
+labels: [bug]
+body:
+  - type: checkboxes
+    id: prereqs
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+        - label: I have searched the existing issues.
+          required: true
+  - type: checkboxes
+    id: update-title
+    attributes:
+      label: Update Title
+      description: Update the issue title to be a clear, complete sentence that summarizes the bug.
+      options:
+        - label: I have updated the title.
+          required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: A concise description of what you expected to happen.
+    validations:
+      required: false
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: A concise description of what you're experiencing.
+    validations:
+      required: false
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. In this environment...
+        2. With this config...
+        3. Run '...'
+        4. See error...
+    validations:
+      required: false
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Run `print -l $FAST_ABBR_HIGHLIGHT[VERSION] $ZSH_VERSION $OSTYPE` and paste the result here.
+      render: shell
+    validations:
+      required: true
+  - type: dropdown
+    id: installation-method
+    attributes:
+      label: Installation Method
+      description: Select the installation method you use.
+      options:
+        - Plugin manager
+        - Manual
+        - Other
+        - Don't Know
+    validations:
+      required: true
+  - type: textarea
+    id: installation-details
+    attributes:
+      label: Installation Details
+      description: |
+        If you use a plugin manager, which one and what version?
+
+        If you selected "Manual" or "Other" provide any info you think might be useful.
+
+        If you selected "Don't Know", run `print $ABBR_SOURCE_PATH` and paste the output here.
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Anything else?
+      description: |
+        Links? References? Anything that will give us more context about the issue you are encountering!
+
+        Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
+    validations:
+      required: false
