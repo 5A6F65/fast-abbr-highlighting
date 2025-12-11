@@ -20,6 +20,18 @@ body:
         - label: I have updated the title.
           required: true
   - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. In this environment...
+        2. With this config...
+        3. Run '...'
+        4. See error...
+    validations:
+      required: false
+  - type: textarea
     id: expected-behavior
     attributes:
       label: Expected Behavior
@@ -34,22 +46,10 @@ body:
     validations:
       required: false
   - type: textarea
-    id: steps
-    attributes:
-      label: Steps to Reproduce
-      description: Steps to reproduce the behavior.
-      placeholder: |
-        1. In this environment...
-        2. With this config...
-        3. Run '...'
-        4. See error...
-    validations:
-      required: false
-  - type: textarea
     id: environment
     attributes:
       label: Environment
-      description: Run `print -l $FAST_ABBR_HIGHLIGHT[VERSION] $ZSH_VERSION $OSTYPE` and paste the result here.
+      description: Run `print -l v$FAST_ABBR_HIGHLIGHT[VERSION] v$ZSH_VERSION $OSTYPE` and paste the result here.
       render: shell
     validations:
       required: true
