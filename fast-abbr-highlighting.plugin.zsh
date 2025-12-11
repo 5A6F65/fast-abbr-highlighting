@@ -310,7 +310,7 @@ _fah_parse_global_abbr() {
 
     # Initialize version tracking and default settings.
     [[ ${(t)FAST_ABBR_HIGHLIGHT} != association ]] && typeset -gA FAST_ABBR_HIGHLIGHT
-    FAST_ABBR_HIGHLIGHT[VERSION]=0.1.2
+    FAST_ABBR_HIGHLIGHT[VERSION]=0.1.3
     : ${FAST_ABBR_HIGHLIGHT[SUBCMD_MAX_LENGTH]:=7}
     : ${FAST_ABBR_HIGHLIGHT[ARGUMENT_MAX_LENGTH]:=7}
 
@@ -322,9 +322,9 @@ _fah_parse_global_abbr() {
 
     # Wrap highlight function to customize abbreviation processing.
     _zsh_highlight() {
-        # @DUPE https://github.com/zdharma-continuum/fast-syntax-highlighting/blob/cf318e06a9b7c9f2219d78f41b46fa6e06011fd9/fast-syntax-highlighting.plugin.zsh#L68-L89
+        # @DUPE https://github.com/zdharma-continuum/fast-syntax-highlighting/blob/v1.56/fast-syntax-highlighting.plugin.zsh#L68-L89
         # Do not highlight in some specific cases.
-        local -r ret=$?
+        local -ri ret=$?
         if [[ $WIDGET == zle-isearch-update ]] && ! (( ${+ISEARCHMATCH_ACTIVE} )) {
             region_highlight=()
             return $ret
@@ -351,7 +351,7 @@ _fah_parse_global_abbr() {
                 FAST_ABBR_HIGHLIGHT[PREV_MATCHED]=1
                 FAST_ABBR_HIGHLIGHT[PRIOR_LBUFFER]=$LBUFFER
                 # If matched, return.
-                return 0
+                return $ret
             }
             # If an abbreviation was matched in the previous highlight, `_ZSH_HIGHLIGHT_PRIOR_BUFFER`
             # must be cleared when `LBUFFER` changes to retrigger the original highlight function.
@@ -371,7 +371,7 @@ _fah_parse_global_abbr() {
             }
             FAST_ABBR_HIGHLIGHT[PRIOR_LBUFFER]=$LBUFFER
         }
-        return 0
+        return $ret
     }
     return 0
 } "$@"
