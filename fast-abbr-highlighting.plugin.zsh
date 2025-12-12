@@ -310,7 +310,7 @@ _fah_parse_global_abbr() {
 
     # Initialize version tracking and default settings.
     [[ ${(t)FAST_ABBR_HIGHLIGHT} != association ]] && typeset -gA FAST_ABBR_HIGHLIGHT
-    FAST_ABBR_HIGHLIGHT[VERSION]=0.1.4
+    FAST_ABBR_HIGHLIGHT[VERSION]=0.1.5
     : ${FAST_ABBR_HIGHLIGHT[SUBCMD_MAX_LENGTH]:=7}
     : ${FAST_ABBR_HIGHLIGHT[ARGUMENT_MAX_LENGTH]:=7}
 
@@ -345,8 +345,10 @@ _fah_parse_global_abbr() {
 
         # Manually update `CURSOR` in advance when triggering the accept function of `zsh-autosuggestions`.
         # Detail: https://github.com/5A6F65/fast-abbr-highlighting/issues/1#issuecomment-3646256469
-        # Reference: https://github.com/zsh-users/zsh-autosuggestions/blob/v0.7.1/zsh-autosuggestions.zsh#L402-L407
-        (( ${funcstack[(I)_zsh_autosuggest_accept]} )) && CURSOR=$((${#BUFFER} - ${${${KEYMAP:#vicmd}:+0}:-1}))
+        # Reference: https://github.com/zsh-users/zsh-autosuggestions/blob/v0.7.1/zsh-autosuggestions.zsh#L373-L410
+        (( ${funcstack[(I)_zsh_autosuggest_accept]} )) \
+            && (( $CURSOR == $max_cursor_pos + 1 )) \
+                && CURSOR=$((${#BUFFER} - ${${${KEYMAP:#vicmd}:+0}:-1}))
 
         # Process regular abbreviation if `LBUFFER` changed.
         if [[ $LBUFFER != ${FAST_ABBR_HIGHLIGHT[PRIOR_LBUFFER]} ]] {
